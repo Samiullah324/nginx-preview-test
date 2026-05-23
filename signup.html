@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Student Management System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fffaf0;
+      color: #333;
+      padding: 24px;
+    }
+
+    .signup-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      padding: 40px 32px;
+    }
+
+    .signup-card h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      color: #ff6b35;
+      text-align: center;
+    }
+
+    .signup-card .subtitle {
+      margin: 0 0 32px;
+      text-align: center;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fafafa;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff6b35;
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+      background: #fff;
+    }
+
+    .btn-signup {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #fff;
+      background: #ff6b35;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-signup:hover {
+      background: #e55a2b;
+    }
+
+    .btn-signup:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      background: #fdecea;
+      color: #c62828;
+      border: 1px solid #f5c6cb;
+    }
+
+    .message.success {
+      display: block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .footer-links {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .footer-links a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #ff6b35;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-card">
+    <h1>Sign Up</h1>
+    <p class="subtitle">Create your Student Management System account</p>
+
+    <form id="signup-form" novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Choose a username"
+          autocomplete="username"
+          required
+          minlength="1"
+          maxlength="64"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Choose a password (min. 6 characters)"
+          autocomplete="new-password"
+          required
+          minlength="6"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          type="password"
+          id="confirm-password"
+          name="confirm-password"
+          placeholder="Re-enter your password"
+          autocomplete="new-password"
+          required
+          minlength="6"
+        >
+      </div>
+
+      <button type="submit" class="btn-signup" id="signup-btn">Create Account</button>
+
+      <div id="message" class="message" role="alert"></div>
+    </form>
+
+    <div class="footer-links">
+      <p><a href="/login.html">Already have an account? Sign in</a></p>
+      <p><a href="/">&larr; Back to home</a></p>
+    </div>
+  </div>
+
+  <script src="/js/auth-api.js"></script>
+  <script>
+    const form = document.getElementById('signup-form');
+    const messageEl = document.getElementById('message');
+    const signupBtn = document.getElementById('signup-btn');
+
+    function showMessage(type, text) {
+      messageEl.className = 'message ' + type;
+      messageEl.textContent = text;
+    }
+
+    function clearMessage() {
+      messageEl.className = 'message';
+      messageEl.textContent = '';
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      clearMessage();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (!username) {
+        showMessage('error', 'Please enter a username.');
+        document.getElementById('username').focus();
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('error', 'Password must be at least 6 characters.');
+        document.getElementById('password').focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('error', 'Passwords do not match.');
+        document.getElementById('confirm-password').focus();
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Creating account…';
+
+      try {
+        const data = await signUp(username, password);
+        showMessage('success', data.message + ' You can now sign in.');
+        form.reset();
+      } catch (error) {
+        showMessage('error', error.message);
+      } finally {
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'Create Account';
+      }
+    });
+  </script>
+</body>
+</html>

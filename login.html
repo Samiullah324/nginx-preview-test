@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Student Management System</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fffaf0;
+      color: #333;
+      padding: 24px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      padding: 40px 32px;
+    }
+
+    .login-card h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      color: #ff6b35;
+      text-align: center;
+    }
+
+    .login-card .subtitle {
+      margin: 0 0 32px;
+      text-align: center;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #fafafa;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff6b35;
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+      background: #fff;
+    }
+
+    .form-group input:invalid:not(:placeholder-shown) {
+      border-color: #e53935;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #fff;
+      background: #ff6b35;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-login:hover {
+      background: #e55a2b;
+    }
+
+    .btn-login:active {
+      background: #cc4f24;
+    }
+
+    .btn-login:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      text-align: center;
+      display: none;
+    }
+
+    .message.error {
+      display: block;
+      background: #fdecea;
+      color: #c62828;
+      border: 1px solid #f5c6cb;
+    }
+
+    .message.success {
+      display: block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .footer-links {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .footer-links a {
+      color: #666;
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #ff6b35;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h1>Sign In</h1>
+    <p class="subtitle">Student Management System</p>
+
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Enter your username"
+          autocomplete="username"
+          required
+          minlength="1"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+          minlength="1"
+        >
+      </div>
+
+      <button type="submit" class="btn-login" id="login-btn">Log In</button>
+
+      <div id="message" class="message" role="alert"></div>
+    </form>
+
+    <div class="footer-links">
+      <p><a href="/signup.html">Create an account</a></p>
+      <p><a href="/">&larr; Back to home</a></p>
+    </div>
+  </div>
+
+  <script src="/js/auth-api.js"></script>
+  <script>
+    const form = document.getElementById('login-form');
+    const messageEl = document.getElementById('message');
+    const loginBtn = document.getElementById('login-btn');
+
+    function showMessage(type, text) {
+      messageEl.className = 'message ' + type;
+      messageEl.textContent = text;
+    }
+
+    function clearMessage() {
+      messageEl.className = 'message';
+      messageEl.textContent = '';
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      clearMessage();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username) {
+        showMessage('error', 'Please enter your username.');
+        document.getElementById('username').focus();
+        return;
+      }
+
+      if (!password) {
+        showMessage('error', 'Please enter your password.');
+        document.getElementById('password').focus();
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in…';
+
+      try {
+        const data = await logIn(username, password);
+        showMessage('success', data.message + ' Welcome, ' + data.user.username + '.');
+      } catch (error) {
+        showMessage('error', error.message);
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Log In';
+      }
+    });
+  </script>
+</body>
+</html>
