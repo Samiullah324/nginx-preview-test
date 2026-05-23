@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up — Sunset Autopilot</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      color: #333;
+      background: #fffaf0;
+      line-height: 1.5;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .page__brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 2rem;
+      background: #ff6b35;
+      color: #fffaf0;
+    }
+
+    .page__brand-title {
+      margin: 0 0 1rem;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+    }
+
+    .page__brand-text {
+      margin: 0;
+      max-width: 28rem;
+      font-size: 1.125rem;
+    }
+
+    .page__main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .signup {
+      width: 100%;
+      max-width: 26rem;
+    }
+
+    .signup__header {
+      margin-bottom: 2rem;
+    }
+
+    .signup__title {
+      margin: 0 0 0.5rem;
+      font-size: 1.75rem;
+      color: #ff6b35;
+    }
+
+    .signup__subtitle {
+      margin: 0;
+      color: #555;
+    }
+
+    .signup__form {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .signup__fieldset {
+      margin: 0;
+      padding: 0;
+      border: none;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .form-field {
+      display: grid;
+      gap: 0.375rem;
+    }
+
+    .form-field label {
+      font-weight: 600;
+    }
+
+    .form-field input[type="text"],
+    .form-field input[type="email"],
+    .form-field input[type="password"] {
+      width: 100%;
+      padding: 0.625rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 0.375rem;
+      font: inherit;
+      background: #fff;
+    }
+
+    .form-field__hint {
+      margin: 0;
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    .form-field--checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+    }
+
+    .form-field--checkbox input {
+      margin-top: 0.25rem;
+    }
+
+    .form-field--checkbox label {
+      font-weight: 400;
+    }
+
+    .signup__actions {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .signup__submit {
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      font: inherit;
+      font-weight: 600;
+      color: #fffaf0;
+      background: #ff6b35;
+      cursor: pointer;
+    }
+
+    .signup__footer {
+      margin: 1.5rem 0 0;
+      text-align: center;
+      color: #555;
+    }
+
+    .signup__footer a {
+      color: #ff6b35;
+    }
+
+    .page__footer {
+      grid-column: 1 / -1;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #666;
+      border-top: 1px solid #eee;
+    }
+
+    .page__footer code {
+      background: #f0f0f0;
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="page__brand" aria-label="Product information">
+      <h1 class="page__brand-title">Sunset Autopilot</h1>
+      <p class="page__brand-text">
+        Create your account to get started with automated preview deployments and streamlined delivery workflows.
+      </p>
+    </aside>
+
+    <main class="page__main" id="main-content">
+      <section class="signup" aria-labelledby="signup-heading">
+        <header class="signup__header">
+          <h2 class="signup__title" id="signup-heading">Create your account</h2>
+          <p class="signup__subtitle">Fill in the details below to sign up.</p>
+        </header>
+
+        <form class="signup__form" action="#" method="post" novalidate>
+          <fieldset class="signup__fieldset">
+            <legend class="visually-hidden">Account details</legend>
+
+            <div class="form-field">
+              <label for="full-name">Full name</label>
+              <input
+                type="text"
+                id="full-name"
+                name="full-name"
+                autocomplete="name"
+                required
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="email">Email address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                inputmode="email"
+                required
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="new-password"
+                required
+                aria-required="true"
+                aria-describedby="password-hint"
+                minlength="8"
+              >
+              <p class="form-field__hint" id="password-hint">
+                Use at least 8 characters with a mix of letters and numbers.
+              </p>
+            </div>
+
+            <div class="form-field">
+              <label for="confirm-password">Confirm password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                autocomplete="new-password"
+                required
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-field form-field--checkbox">
+              <input
+                type="checkbox"
+                id="terms"
+                name="terms"
+                required
+                aria-required="true"
+              >
+              <label for="terms">
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="signup__actions">
+            <button type="submit" class="signup__submit">Create account</button>
+          </div>
+        </form>
+
+        <p class="signup__footer">
+          Already have an account? <a href="#">Sign in</a>
+        </p>
+      </section>
+    </main>
+
+    <footer class="page__footer">
+      <p>Build: <code>__BUILD_TAG__</code></p>
+    </footer>
+  </div>
+</body>
+</html>
