@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up — Student Management System</title>
+  <title>Login — Student Management System</title>
   <style>
     * {
       box-sizing: border-box;
@@ -21,7 +21,7 @@
       padding: 24px;
     }
 
-    .signup-card {
+    .login-card {
       width: 100%;
       max-width: 400px;
       background: #fff;
@@ -30,14 +30,14 @@
       padding: 40px 32px;
     }
 
-    .signup-card h1 {
+    .login-card h1 {
       margin: 0 0 8px;
       font-size: 1.75rem;
       color: #ff6b35;
       text-align: center;
     }
 
-    .signup-card .subtitle {
+    .login-card .subtitle {
       margin: 0 0 32px;
       text-align: center;
       color: #666;
@@ -74,7 +74,11 @@
       background: #fff;
     }
 
-    .btn-signup {
+    .form-group input:invalid:not(:placeholder-shown) {
+      border-color: #e53935;
+    }
+
+    .btn-login {
       width: 100%;
       padding: 12px;
       margin-top: 8px;
@@ -89,11 +93,15 @@
       transition: background 0.2s;
     }
 
-    .btn-signup:hover {
+    .btn-login:hover {
       background: #e55a2b;
     }
 
-    .btn-signup:disabled {
+    .btn-login:active {
+      background: #cc4f24;
+    }
+
+    .btn-login:disabled {
       background: #ccc;
       cursor: not-allowed;
     }
@@ -139,22 +147,21 @@
   </style>
 </head>
 <body>
-  <div class="signup-card">
-    <h1>Sign Up</h1>
-    <p class="subtitle">Create your Student Management System account</p>
+  <div class="login-card">
+    <h1>Sign In</h1>
+    <p class="subtitle">Student Management System</p>
 
-    <form id="signup-form" novalidate>
+    <form id="login-form" novalidate>
       <div class="form-group">
         <label for="username">Username</label>
         <input
           type="text"
           id="username"
           name="username"
-          placeholder="Choose a username"
+          placeholder="Enter your username"
           autocomplete="username"
           required
           minlength="1"
-          maxlength="64"
         >
       </div>
 
@@ -164,42 +171,29 @@
           type="password"
           id="password"
           name="password"
-          placeholder="Choose a password (min. 6 characters)"
-          autocomplete="new-password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
           required
-          minlength="6"
+          minlength="1"
         >
       </div>
 
-      <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
-        <input
-          type="password"
-          id="confirm-password"
-          name="confirm-password"
-          placeholder="Re-enter your password"
-          autocomplete="new-password"
-          required
-          minlength="6"
-        >
-      </div>
-
-      <button type="submit" class="btn-signup" id="signup-btn">Create Account</button>
+      <button type="submit" class="btn-login" id="login-btn">Log In</button>
 
       <div id="message" class="message" role="alert"></div>
     </form>
 
     <div class="footer-links">
-      <p><a href="/login.html">Already have an account? Sign in</a></p>
+      <p><a href="/signup.html">Create an account</a></p>
       <p><a href="/">&larr; Back to home</a></p>
     </div>
   </div>
 
   <script src="/js/auth-api.js"></script>
   <script>
-    const form = document.getElementById('signup-form');
+    const form = document.getElementById('login-form');
     const messageEl = document.getElementById('message');
-    const signupBtn = document.getElementById('signup-btn');
+    const loginBtn = document.getElementById('login-btn');
 
     function showMessage(type, text) {
       messageEl.className = 'message ' + type;
@@ -217,38 +211,30 @@
 
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
 
       if (!username) {
-        showMessage('error', 'Please enter a username.');
+        showMessage('error', 'Please enter your username.');
         document.getElementById('username').focus();
         return;
       }
 
-      if (password.length < 6) {
-        showMessage('error', 'Password must be at least 6 characters.');
+      if (!password) {
+        showMessage('error', 'Please enter your password.');
         document.getElementById('password').focus();
         return;
       }
 
-      if (password !== confirmPassword) {
-        showMessage('error', 'Passwords do not match.');
-        document.getElementById('confirm-password').focus();
-        return;
-      }
-
-      signupBtn.disabled = true;
-      signupBtn.textContent = 'Creating account…';
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in…';
 
       try {
-        const data = await signUp(username, password);
-        showMessage('success', data.message + ' You can now sign in.');
-        form.reset();
+        const data = await logIn(username, password);
+        showMessage('success', data.message + ' Welcome, ' + data.user.username + '.');
       } catch (error) {
         showMessage('error', error.message);
       } finally {
-        signupBtn.disabled = false;
-        signupBtn.textContent = 'Create Account';
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Log In';
       }
     });
   </script>
