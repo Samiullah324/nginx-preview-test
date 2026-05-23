@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account — Sunset Autopilot</title>
+  <style>
+    :root {
+      --bg: #fffaf0;
+      --surface: #ffffff;
+      --text: #333333;
+      --muted: #666666;
+      --accent: #ff6b35;
+      --accent-hover: #e55a28;
+      --border: #e8dfd0;
+      --error: #c0392b;
+      --success: #2d8659;
+      --focus: #ff6b35;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 24px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 28px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      color: var(--accent);
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .checkbox-field {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .checkbox-field label {
+      margin: 0;
+      font-weight: 400;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .checkbox-field input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 16px;
+      background: #fff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    }
+
+    input[aria-invalid="true"] {
+      border-color: var(--error);
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap input {
+      padding-right: 88px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      min-height: 36px;
+      padding: 0 12px;
+      border: none;
+      background: transparent;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .toggle-password:hover {
+      background: rgba(255, 107, 53, 0.08);
+    }
+
+    .hint, .error {
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .hint { color: var(--muted); }
+
+    .error {
+      color: var(--error);
+      display: none;
+    }
+
+    .error.visible { display: block; }
+
+    .requirements {
+      margin-top: 10px;
+      padding: 12px 14px;
+      background: #faf7f2;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .requirements p {
+      margin: 0 0 8px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .requirements ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .requirements li {
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .requirements li.met { color: var(--success); }
+
+    .submit-btn {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 8px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .submit-btn:hover { background: var(--accent-hover); }
+
+    .submit-btn:focus-visible {
+      outline: 3px solid rgba(255, 107, 53, 0.45);
+      outline-offset: 2px;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .footer-note a {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 24px 16px 40px; }
+      .card { padding: 24px 20px; }
+      .field { margin-bottom: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <a class="back-link" href="/index.html">&larr; Back to home</a>
+
+    <div class="card">
+      <h1>Create your account</h1>
+      <p class="subtitle">Join Sunset Autopilot to manage preview deploys.</p>
+
+      <form id="signup-form" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            required
+            aria-describedby="email-error"
+          >
+          <p class="error" id="email-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              autocomplete="new-password"
+              required
+              aria-describedby="password-requirements password-error"
+            >
+            <button type="button" class="toggle-password" id="toggle-password" aria-label="Show password">
+              Show
+            </button>
+          </div>
+          <div class="requirements" id="password-requirements" aria-live="polite">
+            <p>Password must include:</p>
+            <ul>
+              <li id="req-length">At least 8 characters</li>
+              <li id="req-upper">One uppercase letter</li>
+              <li id="req-lower">One lowercase letter</li>
+              <li id="req-number">One number</li>
+            </ul>
+          </div>
+          <p class="error" id="password-error" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="confirm-password">Confirm password</label>
+          <div class="password-wrap">
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirm-password"
+              autocomplete="new-password"
+              required
+              aria-describedby="confirm-error"
+            >
+            <button type="button" class="toggle-password" id="toggle-confirm" aria-label="Show confirm password">
+              Show
+            </button>
+          </div>
+          <p class="error" id="confirm-error" role="alert"></p>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="terms" name="terms" required aria-describedby="terms-error">
+          <label for="terms">
+            I agree to the
+            <a href="https://example.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+            and
+            <a href="https://example.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+          </label>
+        </div>
+        <p class="error" id="terms-error" role="alert"></p>
+
+        <button type="submit" class="submit-btn" id="submit-btn">Create account</button>
+      </form>
+
+      <p class="footer-note">
+        Already have an account? <a href="/index.html">Sign in</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById('signup-form');
+      var email = document.getElementById('email');
+      var password = document.getElementById('password');
+      var confirmPassword = document.getElementById('confirm-password');
+      var terms = document.getElementById('terms');
+      var submitBtn = document.getElementById('submit-btn');
+
+      function showError(el, message) {
+        el.textContent = message;
+        el.classList.add('visible');
+      }
+
+      function hideError(el) {
+        el.textContent = '';
+        el.classList.remove('visible');
+      }
+
+      function setInvalid(input, isInvalid) {
+        input.setAttribute('aria-invalid', isInvalid ? 'true' : 'false');
+      }
+
+      function validateEmail() {
+        var value = email.value.trim();
+        var errorEl = document.getElementById('email-error');
+
+        if (!value) {
+          showError(errorEl, 'Email is required.');
+          setInvalid(email, true);
+          return false;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          showError(errorEl, 'Enter a valid email address (e.g. you@example.com).');
+          setInvalid(email, true);
+          return false;
+        }
+
+        hideError(errorEl);
+        setInvalid(email, false);
+        return true;
+      }
+
+      function checkRequirement(id, met) {
+        var el = document.getElementById(id);
+        if (met) {
+          el.classList.add('met');
+        } else {
+          el.classList.remove('met');
+        }
+        return met;
+      }
+
+      function validatePassword() {
+        var value = password.value;
+        var errorEl = document.getElementById('password-error');
+        var lengthOk = checkRequirement('req-length', value.length >= 8);
+        var upperOk = checkRequirement('req-upper', /[A-Z]/.test(value));
+        var lowerOk = checkRequirement('req-lower', /[a-z]/.test(value));
+        var numberOk = checkRequirement('req-number', /[0-9]/.test(value));
+        var allOk = lengthOk && upperOk && lowerOk && numberOk;
+
+        if (!value) {
+          showError(errorEl, 'Password is required.');
+          setInvalid(password, true);
+          return false;
+        }
+
+        if (!allOk) {
+          showError(errorEl, 'Password does not meet all requirements.');
+          setInvalid(password, true);
+          return false;
+        }
+
+        hideError(errorEl);
+        setInvalid(password, false);
+        return true;
+      }
+
+      function validateConfirm() {
+        var errorEl = document.getElementById('confirm-error');
+
+        if (!confirmPassword.value) {
+          showError(errorEl, 'Please confirm your password.');
+          setInvalid(confirmPassword, true);
+          return false;
+        }
+
+        if (confirmPassword.value !== password.value) {
+          showError(errorEl, 'Passwords do not match.');
+          setInvalid(confirmPassword, true);
+          return false;
+        }
+
+        hideError(errorEl);
+        setInvalid(confirmPassword, false);
+        return true;
+      }
+
+      function validateTerms() {
+        var errorEl = document.getElementById('terms-error');
+
+        if (!terms.checked) {
+          showError(errorEl, 'You must accept the terms to continue.');
+          setInvalid(terms, true);
+          return false;
+        }
+
+        hideError(errorEl);
+        setInvalid(terms, false);
+        return true;
+      }
+
+      function setupToggle(buttonId, inputId) {
+        var btn = document.getElementById(buttonId);
+        var input = document.getElementById(inputId);
+
+        btn.addEventListener('click', function () {
+          var showing = input.type === 'text';
+          input.type = showing ? 'password' : 'text';
+          btn.textContent = showing ? 'Show' : 'Hide';
+          btn.setAttribute('aria-label', (showing ? 'Show' : 'Hide') + ' password');
+        });
+      }
+
+      setupToggle('toggle-password', 'password');
+      setupToggle('toggle-confirm', 'confirm-password');
+
+      email.addEventListener('blur', validateEmail);
+      password.addEventListener('input', validatePassword);
+      confirmPassword.addEventListener('input', validateConfirm);
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var ok = validateEmail() & validatePassword() & validateConfirm() & validateTerms();
+
+        if (ok) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Account created!';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
