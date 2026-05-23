@@ -1,5 +1,16 @@
-FROM nginx:1.27-alpine
-RUN mkdir -p /usr/share/nginx/html
-COPY index.html /usr/share/nginx/html/index.html
-COPY health.txt /usr/share/nginx/html/health
+FROM python:3.12-slim
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app ./app
+COPY health.txt ./health.txt
+
 EXPOSE 80
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
