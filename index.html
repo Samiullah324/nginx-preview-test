@@ -1,11 +1,127 @@
 <!DOCTYPE html>
-<html>
-<head><title>Sunset Autopilot Test</title>
-<style>body{font-family:system-ui;text-align:center;padding:80px;background:#fffaf0;color:#333}h1{color:#ff6b35}p{font-size:20px}code{background:#f0f0f0;padding:4px 8px;border-radius:4px}a{color:#ff6b35}</style></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Student Management System — manage enrollments, grades, and attendance in one place.">
+  <title>Student Management System</title>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('auth-theme');
+        if (stored === 'dark' || stored === 'light') {
+          document.documentElement.setAttribute('data-theme', stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
 <body>
-<h1>Sunset Autopilot — Hello!</h1>
-<p>If you see this on a per-PR preview URL, the deploy works.</p>
-<p>Build: <code>__BUILD_TAG__</code></p>
-<p><a href="/login.html">Sign in</a> · <a href="/signup.html">Create account</a></p>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="/" class="logo">Student Management System</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#students">Students</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="/login.html">Sign in</a>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
+          <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+          <span class="theme-toggle__label">Dark mode</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-badge" id="hero-badge">Trusted by 120+ schools</p>
+        <h1 id="hero-title">Student Management System</h1>
+        <p class="hero-tagline" id="hero-tagline">
+          Manage enrollments, grades, and attendance in one place — so your staff can focus on teaching, not paperwork.
+        </p>
+        <div class="hero-actions">
+          <a href="/signup.html" class="btn btn-primary" id="hero-primary-cta">Create account</a>
+          <a href="/login.html" class="btn btn-secondary" id="hero-secondary-cta">Sign in</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Platform statistics">
+      <div class="container">
+        <div class="stats-grid" id="stats-grid"></div>
+      </div>
+    </section>
+
+    <section id="features" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Everything your school needs</h2>
+          <p>From enrollment to report cards — one platform for administrators, teachers, and parents.</p>
+        </div>
+        <div class="features-grid" id="features-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>How it works</h2>
+          <p>Get up and running in three simple steps.</p>
+        </div>
+        <div class="steps-grid" id="steps-grid"></div>
+      </div>
+    </section>
+
+    <section id="students" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Recent student overview</h2>
+          <p>A snapshot of attendance and grades across active classes.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="students-table">
+            <thead>
+              <tr>
+                <th scope="col">Student</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Class</th>
+                <th scope="col">Attendance</th>
+                <th scope="col">Average</th>
+              </tr>
+            </thead>
+            <tbody id="students-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Trusted by educators</h2>
+          <p>See what schools are saying about the platform.</p>
+        </div>
+        <div class="testimonials-grid" id="testimonials-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-brand" id="footer-brand">© 2026 Horizon Digital</p>
+        <ul class="footer-links" id="footer-links"></ul>
+      </div>
+      <p class="build-tag">Build: <code>__BUILD_TAG__</code></p>
+    </div>
+  </footer>
+
+  <script src="/js/landing-data.js"></script>
+  <script src="/js/landing.js"></script>
+  <script src="/js/theme.js"></script>
 </body>
 </html>
