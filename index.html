@@ -1,11 +1,141 @@
 <!DOCTYPE html>
-<html>
-<head><title>Sunset Autopilot Test</title>
-<style>body{font-family:system-ui;text-align:center;padding:80px;background:#fffaf0;color:#333}h1{color:#ff6b35}p{font-size:20px}code{background:#f0f0f0;padding:4px 8px;border-radius:4px}a{color:#ff6b35}</style></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Student Management System — enrollment, grades, and attendance in one place.">
+  <title>Student Management System — Home</title>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('auth-theme');
+        if (stored === 'dark' || stored === 'light') {
+          document.documentElement.setAttribute('data-theme', stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
 <body>
-<h1>Sunset Autopilot — Hello!</h1>
-<p>If you see this on a per-PR preview URL, the deploy works.</p>
-<p>Build: <code>__BUILD_TAG__</code></p>
-<p><a href="/login.html">Sign in</a> · <a href="/signup.html">Create account</a></p>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" id="app-name">Student Management System</a>
+      <div class="header-actions">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
+          <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+          <span class="theme-toggle__label">Dark mode</span>
+        </button>
+        <a class="btn btn-secondary" href="/login.html">Sign in</a>
+        <a class="btn btn-primary" href="/signup.html">Create account</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-badge" id="hero-badge">Preview environment active</p>
+        <h1 id="app-name-heading">Student Management System</h1>
+        <p class="hero-tagline" id="app-tagline">
+          Streamline enrollment, grades, and attendance in one place.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/signup.html">Get started</a>
+          <a class="btn btn-secondary" href="#recent-enrollments">View activity</a>
+        </div>
+        <p class="build-info">
+          Build: <code id="build-tag">__BUILD_TAG__</code>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="stats-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="stats-heading">At a glance</h2>
+          <p>Sample metrics from the demo dataset.</p>
+        </div>
+        <div class="stats-grid" id="stats-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="features-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="features-heading">Features</h2>
+          <p>Everything administrators and teachers need day to day.</p>
+        </div>
+        <div class="features-grid" id="features-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="recent-enrollments" aria-labelledby="enrollments-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="enrollments-heading">Recent enrollments</h2>
+          <p>Latest student course registrations from the demo dataset.</p>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Student</th>
+                <th scope="col">Course</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody id="enrollments-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="announcements-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="announcements-heading">Announcements</h2>
+          <p>Campus updates from the demo dataset.</p>
+        </div>
+        <div class="announcements-list" id="announcements-list"></div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="testimonials-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="testimonials-heading">What schools are saying</h2>
+          <p>Sample feedback from the demo dataset.</p>
+        </div>
+        <div class="testimonials-grid" id="testimonials-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        <a href="/login.html">Sign in</a> ·
+        <a href="/signup.html">Create account</a> ·
+        <a href="/health">Health check</a>
+      </p>
+      <p>Sunset Autopilot preview deploy · per-PR test environment</p>
+    </div>
+  </footer>
+
+  <script src="/js/landing-data.js"></script>
+  <script src="/js/landing.js"></script>
+  <script src="/js/theme.js"></script>
+  <script>
+    (function () {
+      var heading = document.getElementById('app-name-heading');
+      var data = window.LANDING_DATA;
+      if (heading && data && data.app && data.app.name) {
+        heading.textContent = data.app.name;
+      }
+    })();
+  </script>
 </body>
 </html>
