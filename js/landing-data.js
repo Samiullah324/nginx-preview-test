@@ -1,81 +1,130 @@
-/**
- * Dummy data for the Student Management System landing page (NGIN-0014).
- * Replace with live API responses when backend endpoints are available.
- */
 window.LANDING_DATA = {
-  app: {
-    name: 'Student Management System',
-    tagline: 'Streamline enrollment, grades, and attendance in one place.',
-    badge: 'Preview environment active',
-    buildTag: '__BUILD_TAG__',
+  hero: {
+    badge: 'Trusted by 120+ schools',
+    title: 'Student Management System',
+    tagline:
+      'Manage enrollments, grades, and attendance in one place — so your staff can focus on teaching, not paperwork.',
+    primaryCta: { label: 'Create account', href: '/signup.html' },
+    secondaryCta: { label: 'Sign in', href: '/login.html' },
   },
 
   stats: [
-    { label: 'Active students', value: '1,248', trend: '+12% this term' },
-    { label: 'Courses offered', value: '48', trend: '6 new this semester' },
-    { label: 'Faculty members', value: '86', trend: 'Across 4 departments' },
-    { label: 'Avg. attendance', value: '94%', trend: 'Last 30 days' },
+    { value: '12,450', label: 'Students managed' },
+    { value: '98.2%', label: 'Attendance accuracy' },
+    { value: '340', label: 'Teachers onboarded' },
+    { value: '4.8/5', label: 'Average satisfaction' },
   ],
 
   features: [
     {
       icon: '📋',
-      title: 'Student records',
-      description: 'Centralised profiles with contact details, guardians, and enrollment history.',
-    },
-    {
-      icon: '📚',
-      title: 'Course management',
-      description: 'Create timetables, assign instructors, and track capacity across departments.',
-    },
-    {
-      icon: '✅',
-      title: 'Attendance tracking',
-      description: 'Mark daily attendance and generate reports for parents and administrators.',
+      title: 'Enrollment tracking',
+      description: 'Register students, assign classes, and track transfers across terms.',
+      metric: '1,240 active students this term',
     },
     {
       icon: '📊',
-      title: 'Grades & reporting',
-      description: 'Record assessments, publish report cards, and export term summaries.',
+      title: 'Gradebook',
+      description: 'Enter grades, calculate averages, and publish report cards in minutes.',
+      metric: 'Reports ready in under 5 minutes',
+    },
+    {
+      icon: '✅',
+      title: 'Attendance',
+      description: 'Daily roll call with automated alerts for absences and tardiness.',
+      metric: 'Same-day parent notifications',
+    },
+    {
+      icon: '👨‍👩‍👧',
+      title: 'Parent portal',
+      description: 'Secure read-only access for guardians to view grades and attendance.',
+      metric: '2,800+ guardian accounts',
     },
   ],
 
-  recentEnrollments: [
-    { student: 'Aisha Khan', course: 'Mathematics 101', date: 'May 22, 2026', status: 'Enrolled' },
-    { student: 'James O\'Connor', course: 'English Literature', date: 'May 21, 2026', status: 'Enrolled' },
-    { student: 'Sofia Martinez', course: 'Biology Lab', date: 'May 20, 2026', status: 'Pending' },
-    { student: 'Ethan Wong', course: 'Computer Science', date: 'May 19, 2026', status: 'Enrolled' },
-    { student: 'Priya Sharma', course: 'World History', date: 'May 18, 2026', status: 'Enrolled' },
+  steps: [
+    {
+      number: 1,
+      title: 'Create your account',
+      description: 'Sign up in minutes and configure your school profile.',
+      href: '/signup.html',
+    },
+    {
+      number: 2,
+      title: 'Add students & classes',
+      description: 'Import rosters or add students manually, then assign them to classes.',
+    },
+    {
+      number: 3,
+      title: 'Track progress & reports',
+      description: 'Monitor attendance, enter grades, and generate reports on demand.',
+    },
   ],
 
-  announcements: [
+  students: [
     {
-      title: 'Summer term registration opens',
-      date: 'May 20, 2026',
-      body: 'Registration for summer courses begins Monday. Early enrollment closes May 30.',
+      name: 'Alex Chen',
+      grade: 'Grade 10',
+      className: 'Mathematics A',
+      attendance: '96%',
+      average: 'B+',
     },
     {
-      title: 'Parent-teacher conferences',
-      date: 'May 15, 2026',
-      body: 'Schedule slots are now available for the June conference week.',
+      name: 'Priya Sharma',
+      grade: 'Grade 11',
+      className: 'Biology Honors',
+      attendance: '99%',
+      average: 'A',
     },
     {
-      title: 'New attendance policy',
-      date: 'May 10, 2026',
-      body: 'Updated guidelines for excused absences take effect next term.',
+      name: 'Marcus Johnson',
+      grade: 'Grade 9',
+      className: 'English Literature',
+      attendance: '91%',
+      average: 'B',
+    },
+    {
+      name: 'Sofia Reyes',
+      grade: 'Grade 12',
+      className: 'Physics AP',
+      attendance: '97%',
+      average: 'A-',
+    },
+    {
+      name: 'Ethan Williams',
+      grade: 'Grade 10',
+      className: 'History',
+      attendance: '88%',
+      average: 'C+',
     },
   ],
 
   testimonials: [
     {
-      quote: 'We cut enrollment paperwork in half. Teachers finally have one place for grades and attendance.',
-      author: 'Dr. Helen Brooks',
-      role: 'Principal, Westfield Academy',
+      quote: 'Cut our admin time in half. Enrollment and reporting used to take days — now it takes hours.',
+      author: 'Jane Morrison',
+      role: 'Principal, Riverside Academy',
     },
     {
-      quote: 'Parents love the visibility into schedules and report cards. Setup took less than a day.',
-      author: 'Marcus Lee',
-      role: 'IT Director, Riverside School District',
+      quote: 'Grade entry is finally painless. I can update marks from my phone between classes.',
+      author: 'David Kim',
+      role: 'Grade 10 Math Teacher',
+    },
+    {
+      quote: 'Parents love the portal. Fewer phone calls about attendance and grades means less stress for everyone.',
+      author: 'Sarah Okafor',
+      role: 'Office Administrator, Oakwood High',
     },
   ],
+
+  footer: {
+    org: 'Horizon Digital',
+    year: 2026,
+    links: [
+      { label: 'About', href: '#' },
+      { label: 'Privacy', href: '#' },
+      { label: 'Support', href: '#' },
+      { label: 'Contact', href: '#' },
+    ],
+  },
 };

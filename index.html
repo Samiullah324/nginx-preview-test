@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="Student Management System — enrollment, grades, and attendance in one place.">
-  <title>Student Management System — Home</title>
+  <meta name="description" content="Student Management System — manage enrollments, grades, and attendance in one place.">
+  <title>Student Management System</title>
   <script>
     (function () {
       try {
@@ -20,94 +20,90 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="/" id="app-name">Student Management System</a>
-      <div class="header-actions">
+    <div class="container site-header__inner">
+      <a href="/" class="logo">Student Management System</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#students">Students</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="/login.html">Sign in</a>
         <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
           <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
           <span class="theme-toggle__label">Dark mode</span>
         </button>
-        <a class="btn btn-secondary" href="/login.html">Sign in</a>
-        <a class="btn btn-primary" href="/signup.html">Create account</a>
-      </div>
+      </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
       <div class="container">
-        <p class="hero-badge" id="hero-badge">Preview environment active</p>
-        <h1 id="app-name-heading">Student Management System</h1>
-        <p class="hero-tagline" id="app-tagline">
-          Streamline enrollment, grades, and attendance in one place.
+        <p class="hero-badge" id="hero-badge">Trusted by 120+ schools</p>
+        <h1 id="hero-title">Student Management System</h1>
+        <p class="hero-tagline" id="hero-tagline">
+          Manage enrollments, grades, and attendance in one place — so your staff can focus on teaching, not paperwork.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="/signup.html">Get started</a>
-          <a class="btn btn-secondary" href="#recent-enrollments">View activity</a>
+          <a href="/signup.html" class="btn btn-primary" id="hero-primary-cta">Create account</a>
+          <a href="/login.html" class="btn btn-secondary" id="hero-secondary-cta">Sign in</a>
         </div>
-        <p class="build-info">
-          Build: <code id="build-tag">__BUILD_TAG__</code>
-        </p>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="stats-heading">
+    <section class="section" aria-label="Platform statistics">
       <div class="container">
-        <div class="section-header">
-          <h2 id="stats-heading">At a glance</h2>
-          <p>Sample metrics from the demo dataset.</p>
-        </div>
         <div class="stats-grid" id="stats-grid"></div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="features-heading">
+    <section id="features" class="section section-alt">
       <div class="container">
         <div class="section-header">
-          <h2 id="features-heading">Features</h2>
-          <p>Everything administrators and teachers need day to day.</p>
+          <h2>Everything your school needs</h2>
+          <p>From enrollment to report cards — one platform for administrators, teachers, and parents.</p>
         </div>
         <div class="features-grid" id="features-grid"></div>
       </div>
     </section>
 
-    <section class="section" id="recent-enrollments" aria-labelledby="enrollments-heading">
+    <section class="section">
       <div class="container">
         <div class="section-header">
-          <h2 id="enrollments-heading">Recent enrollments</h2>
-          <p>Latest student course registrations from the demo dataset.</p>
+          <h2>How it works</h2>
+          <p>Get up and running in three simple steps.</p>
+        </div>
+        <div class="steps-grid" id="steps-grid"></div>
+      </div>
+    </section>
+
+    <section id="students" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Recent student overview</h2>
+          <p>A snapshot of attendance and grades across active classes.</p>
         </div>
         <div class="table-wrap">
-          <table class="data-table">
+          <table class="students-table">
             <thead>
               <tr>
                 <th scope="col">Student</th>
-                <th scope="col">Course</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Class</th>
+                <th scope="col">Attendance</th>
+                <th scope="col">Average</th>
               </tr>
             </thead>
-            <tbody id="enrollments-body"></tbody>
+            <tbody id="students-tbody"></tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="announcements-heading">
+    <section id="testimonials" class="section">
       <div class="container">
         <div class="section-header">
-          <h2 id="announcements-heading">Announcements</h2>
-          <p>Campus updates from the demo dataset.</p>
-        </div>
-        <div class="announcements-list" id="announcements-list"></div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="testimonials-heading">
-      <div class="container">
-        <div class="section-header">
-          <h2 id="testimonials-heading">What schools are saying</h2>
-          <p>Sample feedback from the demo dataset.</p>
+          <h2>Trusted by educators</h2>
+          <p>See what schools are saying about the platform.</p>
         </div>
         <div class="testimonials-grid" id="testimonials-grid"></div>
       </div>
@@ -116,26 +112,16 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>
-        <a href="/login.html">Sign in</a> ·
-        <a href="/signup.html">Create account</a> ·
-        <a href="/health">Health check</a>
-      </p>
-      <p>Sunset Autopilot preview deploy · per-PR test environment</p>
+      <div class="footer-inner">
+        <p class="footer-brand" id="footer-brand">© 2026 Horizon Digital</p>
+        <ul class="footer-links" id="footer-links"></ul>
+      </div>
+      <p class="build-tag">Build: <code>__BUILD_TAG__</code></p>
     </div>
   </footer>
 
   <script src="/js/landing-data.js"></script>
   <script src="/js/landing.js"></script>
   <script src="/js/theme.js"></script>
-  <script>
-    (function () {
-      var heading = document.getElementById('app-name-heading');
-      var data = window.LANDING_DATA;
-      if (heading && data && data.app && data.app.name) {
-        heading.textContent = data.app.name;
-      }
-    })();
-  </script>
 </body>
 </html>

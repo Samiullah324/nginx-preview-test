@@ -14,6 +14,7 @@ COPY index.html /usr/share/nginx/html/index.html
 COPY login.html /usr/share/nginx/html/login.html
 COPY signup.html /usr/share/nginx/html/signup.html
 COPY css/auth.css /usr/share/nginx/html/css/auth.css
+COPY css/landing.css /usr/share/nginx/html/css/landing.css
 COPY js/auth-api.js /usr/share/nginx/html/js/auth-api.js
 COPY js/landing-data.js /usr/share/nginx/html/js/landing-data.js
 COPY js/landing.js /usr/share/nginx/html/js/landing.js
