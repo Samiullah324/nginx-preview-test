@@ -65,6 +65,38 @@ function validateCredentials(body) {
   return { ok: true, username, password };
 }
 
+function validateChatMessage(body) {
+  const message = typeof body.message === 'string' ? body.message.trim() : '';
+
+  if (!message) {
+    return { ok: false, error: 'Message is required.' };
+  }
+
+  if (message.length > 500) {
+    return { ok: false, error: 'Message must be 500 characters or fewer.' };
+  }
+
+  return { ok: true, message };
+}
+
+function buildSupportReply(message) {
+  const lower = message.toLowerCase();
+
+  if (lower.includes('password') || lower.includes('login') || lower.includes('sign in')) {
+    return 'For account access issues, try resetting your password from the sign-in page or creating a new account. If the problem continues, share your username and we will follow up.';
+  }
+
+  if (lower.includes('enroll') || lower.includes('course') || lower.includes('registration')) {
+    return 'Enrollment questions are handled by your school administrator. I can help you find the right contact or explain how enrollments appear in the dashboard.';
+  }
+
+  if (lower.includes('grade') || lower.includes('attendance')) {
+    return 'Grades and attendance are updated by teachers in the system. Tell me which course or student record you are looking at and I will guide you to the right section.';
+  }
+
+  return 'Thanks for your message. A support specialist has received it and will follow up shortly. Is there anything else we can help with in the meantime?';
+}
+
 const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
@@ -86,6 +118,20 @@ const server = http.createServer(async (req, res) => {
     body = await readJsonBody(req);
   } catch (error) {
     sendJson(res, 400, { error: error.message || 'Invalid request body.' });
+    return;
+  }
+
+  if (req.url === '/api/support/chat') {
+    const chat = validateChatMessage(body);
+    if (!chat.ok) {
+      sendJson(res, 400, { error: chat.error });
+      return;
+    }
+
+    sendJson(res, 200, {
+      reply: buildSupportReply(chat.message),
+      timestamp: new Date().toISOString(),
+    });
     return;
   }
 
