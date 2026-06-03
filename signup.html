@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Sign Up — Student Management System</title>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem('auth-theme');
+        if (stored === 'dark' || stored === 'light') {
+          document.documentElement.setAttribute('data-theme', stored);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/chat-widget.css">
+</head>
+<body>
+  <div class="auth-page">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">
+      <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+      <span class="theme-toggle__label">Dark mode</span>
+    </button>
+
+    <div class="auth-card">
+      <h1>Sign Up</h1>
+      <p class="subtitle">Create your Student Management System account</p>
+
+      <form id="signup-form" novalidate>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Choose a username"
+            autocomplete="username"
+            required
+            minlength="1"
+            maxlength="64"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Choose a password (min. 6 characters)"
+            autocomplete="new-password"
+            required
+            minlength="6"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            placeholder="Re-enter your password"
+            autocomplete="new-password"
+            required
+            minlength="6"
+          >
+        </div>
+
+        <button type="submit" class="btn-primary" id="signup-btn">Create Account</button>
+
+        <div id="message" class="message" role="alert"></div>
+      </form>
+
+      <div class="footer-links">
+        <p><a href="/login.html">Already have an account? Sign in</a></p>
+        <p><a href="/">&larr; Back to home</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/theme.js"></script>
+  <script src="/js/chat-widget.js"></script>
+  <script src="/js/auth-api.js"></script>
+  <script>
+    const form = document.getElementById('signup-form');
+    const messageEl = document.getElementById('message');
+    const signupBtn = document.getElementById('signup-btn');
+
+    function showMessage(type, text) {
+      messageEl.className = 'message ' + type;
+      messageEl.textContent = text;
+    }
+
+    function clearMessage() {
+      messageEl.className = 'message';
+      messageEl.textContent = '';
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      clearMessage();
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      if (!username) {
+        showMessage('error', 'Please enter a username.');
+        document.getElementById('username').focus();
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('error', 'Password must be at least 6 characters.');
+        document.getElementById('password').focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('error', 'Passwords do not match.');
+        document.getElementById('confirm-password').focus();
+        return;
+      }
+
+      signupBtn.disabled = true;
+      signupBtn.textContent = 'Creating account…';
+
+      try {
+        const data = await signUp(username, password);
+        showMessage('success', data.message + ' You can now sign in.');
+        form.reset();
+      } catch (error) {
+        showMessage('error', error.message);
+      } finally {
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'Create Account';
+      }
+    });
+  </script>
+</body>
+</html>
