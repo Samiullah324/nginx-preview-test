@@ -1,3 +1,13 @@
+/*
+ * Chat Widget Styles
+ * 
+ * Provides styling for the floating chat widget:
+ * - Fixed-position chat icon in bottom-right corner
+ * - Hidden chat panel that appears when icon is clicked
+ * - z-index: 1000 to ensure visibility above other content
+ * - Responsive design for mobile devices
+ */
+
 .visually-hidden {
   position: absolute;
   width: 1px;

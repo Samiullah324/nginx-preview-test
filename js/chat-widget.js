@@ -1,3 +1,13 @@
+/**
+ * Chat Widget JavaScript
+ * 
+ * Implements the floating chat widget functionality:
+ * - Dynamically creates chat widget HTML structure on DOM load
+ * - Toggles chat panel visibility when icon is clicked
+ * - Handles opening/closing with smooth CSS transitions
+ * - Manages event listeners for click, Escape key, and form submission
+ * - Provides simulated auto-replies for demo purposes
+ */
 (function () {
   var SUPPORT_NAME = 'Support Team';
   var WELCOME_MESSAGE =
