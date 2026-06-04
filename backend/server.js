@@ -1,8 +1,35 @@
 const http = require('http');
-const { createUser, authenticateUser } = require('./store');
+const { createUser, authenticateUser, createResetToken, resetUserPassword } = require('./store');
 
 const PORT = process.env.PORT || 3000;
 const MAX_BODY_BYTES = 4096;
+
+/*
+ * NOTE: Rate limit data is stored in-memory and will be lost on server restart.
+ * For production use, implement persistent storage (e.g., Redis) to ensure
+ * rate limits persist across restarts and support horizontal scaling.
+ */
+const resetRateLimits = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 3;
+
+function checkResetRateLimit(identifier) {
+  const now = Date.now();
+  const record = resetRateLimits.get(identifier);
+
+  if (!record || now - record.windowStart > RATE_LIMIT_WINDOW_MS) {
+    resetRateLimits.set(identifier, { windowStart: now, count: 1 });
+    return { allowed: true };
+  }
+
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    const retryAfter = Math.ceil((record.windowStart + RATE_LIMIT_WINDOW_MS - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+
+  record.count++;
+  return { allowed: true };
+}
 
 function sendJson(res, statusCode, payload) {
   const body = JSON.stringify(payload);
@@ -86,6 +113,73 @@ const server = http.createServer(async (req, res) => {
     body = await readJsonBody(req);
   } catch (error) {
     sendJson(res, 400, { error: error.message || 'Invalid request body.' });
+    return;
+  }
+
+  if (req.url === '/api/auth/forgot-password') {
+    const username = typeof body.username === 'string' ? body.username.trim() : '';
+
+    if (!username) {
+      sendJson(res, 400, { error: 'Username is required.' });
+      return;
+    }
+
+    const clientIp = req.socket.remoteAddress || 'unknown';
+    const rateLimitKey = `${clientIp}:${username.toLowerCase()}`;
+    const rateCheck = checkResetRateLimit(rateLimitKey);
+
+    if (!rateCheck.allowed) {
+      res.writeHead(429, {
+        'Content-Type': 'application/json',
+        'Retry-After': String(rateCheck.retryAfter),
+      });
+      res.end(JSON.stringify({ error: 'Too many reset requests. Please try again later.' }));
+      return;
+    }
+
+    createResetToken(username);
+
+    sendJson(res, 200, {
+      message: 'If an account with that username exists, a password reset code has been sent to your registered email address.',
+    });
+    return;
+  }
+
+  if (req.url === '/api/auth/reset-password') {
+    const username = typeof body.username === 'string' ? body.username.trim() : '';
+    const resetCode = typeof body.resetCode === 'string' ? body.resetCode.trim() : '';
+    const newPassword = typeof body.newPassword === 'string' ? body.newPassword : '';
+
+    if (!username) {
+      sendJson(res, 400, { error: 'Username is required.' });
+      return;
+    }
+
+    if (!resetCode) {
+      sendJson(res, 400, { error: 'Reset code is required.' });
+      return;
+    }
+
+    if (!newPassword) {
+      sendJson(res, 400, { error: 'New password is required.' });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      sendJson(res, 400, { error: 'Password must be at least 6 characters.' });
+      return;
+    }
+
+    const result = resetUserPassword(username, resetCode, newPassword);
+    if (!result.ok) {
+      sendJson(res, 400, { error: result.error });
+      return;
+    }
+
+    sendJson(res, 200, {
+      message: 'Password reset successful. You can now sign in with your new password.',
+      user: result.user,
+    });
     return;
   }
 
