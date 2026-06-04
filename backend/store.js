@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 
 const users = new Map();
+const resetTokens = new Map();
 
 function hashPassword(password, salt) {
   return crypto.scryptSync(password, salt, 64).toString('hex');
@@ -50,7 +51,77 @@ function authenticateUser(username, password) {
   };
 }
 
+function createResetToken(username) {
+  const normalizedUsername = username.trim().toLowerCase();
+  const user = users.get(normalizedUsername);
+
+  if (!user) {
+    return { ok: false, error: 'User not found.' };
+  }
+
+  const resetCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+  const expiresAt = Date.now() + 15 * 60 * 1000;
+
+  resetTokens.set(normalizedUsername, {
+    code: resetCode,
+    expiresAt,
+  });
+
+  return {
+    ok: true,
+    resetCode,
+    username: user.username,
+  };
+}
+
+function verifyResetToken(username, resetCode) {
+  const normalizedUsername = username.trim().toLowerCase();
+  const tokenData = resetTokens.get(normalizedUsername);
+
+  if (!tokenData) {
+    return { ok: false, error: 'Invalid or expired reset code.' };
+  }
+
+  if (Date.now() > tokenData.expiresAt) {
+    resetTokens.delete(normalizedUsername);
+    return { ok: false, error: 'Reset code has expired. Please request a new one.' };
+  }
+
+  if (tokenData.code !== resetCode.trim().toUpperCase()) {
+    return { ok: false, error: 'Invalid reset code.' };
+  }
+
+  return { ok: true };
+}
+
+function resetUserPassword(username, resetCode, newPassword) {
+  const normalizedUsername = username.trim().toLowerCase();
+
+  const verification = verifyResetToken(username, resetCode);
+  if (!verification.ok) {
+    return verification;
+  }
+
+  const user = users.get(normalizedUsername);
+  if (!user) {
+    return { ok: false, error: 'User not found.' };
+  }
+
+  const salt = crypto.randomBytes(16).toString('hex');
+  user.salt = salt;
+  user.passwordHash = hashPassword(newPassword, salt);
+
+  resetTokens.delete(normalizedUsername);
+
+  return {
+    ok: true,
+    user: { username: user.username },
+  };
+}
+
 module.exports = {
   createUser,
   authenticateUser,
+  createResetToken,
+  resetUserPassword,
 };

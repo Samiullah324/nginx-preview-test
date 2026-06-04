@@ -1,5 +1,5 @@
 const http = require('http');
-const { createUser, authenticateUser } = require('./store');
+const { createUser, authenticateUser, createResetToken, resetUserPassword } = require('./store');
 
 const PORT = process.env.PORT || 3000;
 const MAX_BODY_BYTES = 4096;
@@ -86,6 +86,65 @@ const server = http.createServer(async (req, res) => {
     body = await readJsonBody(req);
   } catch (error) {
     sendJson(res, 400, { error: error.message || 'Invalid request body.' });
+    return;
+  }
+
+  if (req.url === '/api/auth/forgot-password') {
+    const username = typeof body.username === 'string' ? body.username.trim() : '';
+
+    if (!username) {
+      sendJson(res, 400, { error: 'Username is required.' });
+      return;
+    }
+
+    const result = createResetToken(username);
+    if (!result.ok) {
+      sendJson(res, 404, { error: result.error });
+      return;
+    }
+
+    sendJson(res, 200, {
+      message: 'Password reset code generated. Use the code below to reset your password.',
+      resetCode: result.resetCode,
+    });
+    return;
+  }
+
+  if (req.url === '/api/auth/reset-password') {
+    const username = typeof body.username === 'string' ? body.username.trim() : '';
+    const resetCode = typeof body.resetCode === 'string' ? body.resetCode.trim() : '';
+    const newPassword = typeof body.newPassword === 'string' ? body.newPassword : '';
+
+    if (!username) {
+      sendJson(res, 400, { error: 'Username is required.' });
+      return;
+    }
+
+    if (!resetCode) {
+      sendJson(res, 400, { error: 'Reset code is required.' });
+      return;
+    }
+
+    if (!newPassword) {
+      sendJson(res, 400, { error: 'New password is required.' });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      sendJson(res, 400, { error: 'Password must be at least 6 characters.' });
+      return;
+    }
+
+    const result = resetUserPassword(username, resetCode, newPassword);
+    if (!result.ok) {
+      sendJson(res, 400, { error: result.error });
+      return;
+    }
+
+    sendJson(res, 200, {
+      message: 'Password reset successful. You can now sign in with your new password.',
+      user: result.user,
+    });
     return;
   }
 
