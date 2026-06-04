@@ -61,13 +61,12 @@
       'chat-widget__message chat-widget__message--' + (sender === 'user' ? 'user' : 'support');
 
     var metaLabel = sender === 'user' ? 'You' : SUPPORT_NAME;
-    message.innerHTML =
-      text +
-      '<span class="chat-widget__message-meta">' +
-      metaLabel +
-      ' · ' +
-      formatTime(timestamp) +
-      '</span>';
+    message.appendChild(document.createTextNode(text));
+
+    var meta = document.createElement('span');
+    meta.className = 'chat-widget__message-meta';
+    meta.textContent = metaLabel + ' · ' + formatTime(timestamp);
+    message.appendChild(meta);
 
     container.appendChild(message);
     container.scrollTop = container.scrollHeight;
@@ -115,6 +114,13 @@
       toggle.focus();
     });
 
+    document.addEventListener('click', function (event) {
+      if (!isOpen || widget.contains(event.target)) {
+        return;
+      }
+      setOpen(false);
+    });
+
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && isOpen) {
         setOpen(false);
@@ -151,6 +157,8 @@
     input.addEventListener('input', function () {
       sendBtn.disabled = !input.value.trim();
     });
+
+    sendBtn.disabled = true;
   }
 
   if (document.readyState === 'loading') {
