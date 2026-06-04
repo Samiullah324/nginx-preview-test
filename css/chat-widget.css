@@ -1,4 +1,4 @@
-/*
+/**
  * Chat Widget Styles
  * 
  * Provides styling for the floating chat widget:
@@ -286,7 +286,6 @@
   border-bottom-right-radius: 4px;
 }
 
-/* Typing indicator */
 .chat-widget__typing {
   display: flex;
   gap: 4px;
