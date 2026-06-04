@@ -4,6 +4,28 @@ const { createUser, authenticateUser, createResetToken, resetUserPassword } = re
 const PORT = process.env.PORT || 3000;
 const MAX_BODY_BYTES = 4096;
 
+const resetRateLimits = new Map();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 3;
+
+function checkResetRateLimit(identifier) {
+  const now = Date.now();
+  const record = resetRateLimits.get(identifier);
+
+  if (!record || now - record.windowStart > RATE_LIMIT_WINDOW_MS) {
+    resetRateLimits.set(identifier, { windowStart: now, count: 1 });
+    return { allowed: true };
+  }
+
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    const retryAfter = Math.ceil((record.windowStart + RATE_LIMIT_WINDOW_MS - now) / 1000);
+    return { allowed: false, retryAfter };
+  }
+
+  record.count++;
+  return { allowed: true };
+}
+
 function sendJson(res, statusCode, payload) {
   const body = JSON.stringify(payload);
   res.writeHead(statusCode, {
@@ -97,15 +119,23 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    const result = createResetToken(username);
-    if (!result.ok) {
-      sendJson(res, 404, { error: result.error });
+    const clientIp = req.socket.remoteAddress || 'unknown';
+    const rateLimitKey = `${clientIp}:${username.toLowerCase()}`;
+    const rateCheck = checkResetRateLimit(rateLimitKey);
+
+    if (!rateCheck.allowed) {
+      res.writeHead(429, {
+        'Content-Type': 'application/json',
+        'Retry-After': String(rateCheck.retryAfter),
+      });
+      res.end(JSON.stringify({ error: 'Too many reset requests. Please try again later.' }));
       return;
     }
 
+    createResetToken(username);
+
     sendJson(res, 200, {
-      message: 'Password reset code generated. Use the code below to reset your password.',
-      resetCode: result.resetCode,
+      message: 'If an account with that username exists, a password reset code has been sent to your registered email address.',
     });
     return;
   }

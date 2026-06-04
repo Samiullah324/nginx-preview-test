@@ -1,6 +1,12 @@
 const crypto = require('crypto');
 
 const users = new Map();
+
+/*
+ * NOTE: Reset tokens are stored in-memory and will be lost on server restart.
+ * For production use, implement persistent storage (e.g., database, Redis)
+ * to ensure reset tokens survive server restarts and support horizontal scaling.
+ */
 const resetTokens = new Map();
 
 function hashPassword(password, salt) {
@@ -59,7 +65,7 @@ function createResetToken(username) {
     return { ok: false, error: 'User not found.' };
   }
 
-  const resetCode = crypto.randomBytes(4).toString('hex').toUpperCase();
+  const resetCode = crypto.randomBytes(16).toString('hex').toUpperCase();
   const expiresAt = Date.now() + 15 * 60 * 1000;
 
   resetTokens.set(normalizedUsername, {
