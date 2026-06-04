@@ -62,7 +62,7 @@ function createResetToken(username) {
   const user = users.get(normalizedUsername);
 
   if (!user) {
-    return { ok: false, error: 'User not found.' };
+    return { ok: false };
   }
 
   const resetCode = crypto.randomBytes(16).toString('hex').toUpperCase();
@@ -71,14 +71,19 @@ function createResetToken(username) {
   resetTokens.set(normalizedUsername, {
     code: resetCode,
     expiresAt,
+    attempts: 0,
   });
 
-  return {
-    ok: true,
-    resetCode,
-    username: user.username,
-  };
+  /*
+   * NOTE: In production, send resetCode via email here using an email service.
+   * Example: await emailService.send(user.email, 'Password Reset', `Your code: ${resetCode}`);
+   * The reset code should NEVER be returned to the client or logged.
+   */
+
+  return { ok: true };
 }
+
+const MAX_RESET_ATTEMPTS = 5;
 
 function verifyResetToken(username, resetCode) {
   const normalizedUsername = username.trim().toLowerCase();
@@ -93,7 +98,13 @@ function verifyResetToken(username, resetCode) {
     return { ok: false, error: 'Reset code has expired. Please request a new one.' };
   }
 
+  if (tokenData.attempts >= MAX_RESET_ATTEMPTS) {
+    resetTokens.delete(normalizedUsername);
+    return { ok: false, error: 'Too many failed attempts. Please request a new reset code.' };
+  }
+
   if (tokenData.code !== resetCode.trim().toUpperCase()) {
+    tokenData.attempts++;
     return { ok: false, error: 'Invalid reset code.' };
   }
 

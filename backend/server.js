@@ -4,6 +4,11 @@ const { createUser, authenticateUser, createResetToken, resetUserPassword } = re
 const PORT = process.env.PORT || 3000;
 const MAX_BODY_BYTES = 4096;
 
+/*
+ * NOTE: Rate limit data is stored in-memory and will be lost on server restart.
+ * For production use, implement persistent storage (e.g., Redis) to ensure
+ * rate limits persist across restarts and support horizontal scaling.
+ */
 const resetRateLimits = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 3;
