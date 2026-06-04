@@ -6,6 +6,7 @@
  * - Hidden chat panel that appears when icon is clicked
  * - z-index: 1000 to ensure visibility above other content
  * - Responsive design for mobile devices
+ * - Enhanced animations and micro-interactions
  */
 
 .visually-hidden {
@@ -33,32 +34,87 @@
   --chat-focus-ring: var(--auth-focus-ring, rgba(255, 107, 53, 0.15));
 }
 
+@keyframes chatBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes chatPulse {
+  0%, 100% {
+    box-shadow: 0 4px 24px rgba(255, 107, 53, 0.25);
+  }
+  50% {
+    box-shadow: 0 4px 32px rgba(255, 107, 53, 0.45);
+  }
+}
+
+@keyframes chatMessageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .chat-widget {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 1000;
   font-family: system-ui, -apple-system, sans-serif;
+  animation: chatBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 1s;
+  opacity: 0;
 }
 
 .chat-widget__toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: var(--chat-accent);
+  background: linear-gradient(135deg, var(--chat-accent), var(--chat-accent-hover));
   color: #ffffff;
   cursor: pointer;
-  box-shadow: var(--chat-shadow);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 24px rgba(255, 107, 53, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: chatPulse 3s ease-in-out infinite;
 }
 
 .chat-widget__toggle:hover {
-  background: var(--chat-accent-hover);
+  background: linear-gradient(135deg, var(--chat-accent-hover), var(--chat-accent));
+  transform: scale(1.1) rotate(8deg);
+  box-shadow: 0 6px 32px rgba(255, 107, 53, 0.4);
+}
+
+.chat-widget__toggle:active {
+  transform: scale(0.95);
+}
+
+.chat-widget--open .chat-widget__toggle {
+  animation: none;
+  transform: rotate(0);
+}
+
+.chat-widget--open .chat-widget__toggle:hover {
   transform: scale(1.05);
 }
 
@@ -71,27 +127,36 @@
   width: 28px;
   height: 28px;
   fill: currentColor;
+  transition: transform 0.3s ease;
+}
+
+.chat-widget__toggle:hover .chat-widget__toggle-icon {
+  transform: scale(1.1);
+}
+
+.chat-widget--open .chat-widget__toggle-icon {
+  transform: rotate(180deg);
 }
 
 .chat-widget__panel {
   position: absolute;
-  bottom: 72px;
+  bottom: 76px;
   right: 0;
   display: flex;
   flex-direction: column;
-  width: min(360px, calc(100vw - 48px));
-  height: 480px;
+  width: min(380px, calc(100vw - 48px));
+  height: 500px;
   max-height: calc(100vh - 120px);
   background: var(--chat-surface);
   border: 1px solid var(--chat-border);
-  border-radius: 12px;
-  box-shadow: var(--chat-shadow);
+  border-radius: 16px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(12px) scale(0.96);
+  transform: translateY(20px) scale(0.9);
   transform-origin: bottom right;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s ease;
 }
 
 .chat-widget--open .chat-widget__panel {
@@ -105,8 +170,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 16px;
-  background: var(--chat-accent);
+  padding: 18px;
+  background: linear-gradient(135deg, var(--chat-accent), var(--chat-accent-hover));
   color: #ffffff;
 }
 
@@ -136,15 +201,20 @@
   height: 32px;
   padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.15);
   color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .chat-widget__close:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.chat-widget__close:active {
+  transform: rotate(90deg) scale(0.9);
 }
 
 .chat-widget__close:focus-visible {
@@ -164,11 +234,12 @@
 
 .chat-widget__message {
   max-width: 85%;
-  padding: 10px 14px;
-  border-radius: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
   font-size: 0.9375rem;
   line-height: 1.45;
   word-wrap: break-word;
+  animation: chatMessageSlideIn 0.3s ease forwards;
 }
 
 .chat-widget__message--support {
@@ -181,9 +252,10 @@
 
 .chat-widget__message--user {
   align-self: flex-end;
-  background: var(--chat-accent);
+  background: linear-gradient(135deg, var(--chat-accent), var(--chat-accent-hover));
   color: #ffffff;
   border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
 }
 
 .chat-widget__message-meta {
@@ -196,7 +268,7 @@
 .chat-widget__form {
   display: flex;
   gap: 8px;
-  padding: 12px;
+  padding: 14px;
   border-top: 1px solid var(--chat-border);
   background: var(--chat-surface);
 }
@@ -204,19 +276,21 @@
 .chat-widget__input {
   flex: 1;
   min-width: 0;
-  padding: 10px 12px;
+  padding: 12px 14px;
   border: 1px solid var(--chat-border);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--chat-input-bg);
   color: var(--chat-text);
   font: inherit;
   font-size: 0.9375rem;
+  transition: all 0.2s ease;
 }
 
 .chat-widget__input:focus {
   outline: none;
   border-color: var(--chat-accent);
   box-shadow: 0 0 0 3px var(--chat-focus-ring);
+  transform: translateY(-1px);
 }
 
 .chat-widget__input::placeholder {
@@ -225,20 +299,26 @@
 
 .chat-widget__send {
   flex-shrink: 0;
-  padding: 10px 16px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
-  background: var(--chat-accent);
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--chat-accent), var(--chat-accent-hover));
   color: #ffffff;
   font: inherit;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .chat-widget__send:hover:not(:disabled) {
-  background: var(--chat-accent-hover);
+  background: linear-gradient(135deg, var(--chat-accent-hover), var(--chat-accent));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.chat-widget__send:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .chat-widget__send:disabled {
@@ -257,8 +337,13 @@
     right: 16px;
   }
 
+  .chat-widget__toggle {
+    width: 54px;
+    height: 54px;
+  }
+
   .chat-widget__panel {
-    bottom: 68px;
+    bottom: 70px;
     width: calc(100vw - 32px);
     height: min(480px, calc(100vh - 100px));
   }

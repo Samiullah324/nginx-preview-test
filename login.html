@@ -92,30 +92,42 @@
 
       const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
 
       if (!username) {
         showMessage('error', 'Please enter your username.');
-        document.getElementById('username').focus();
+        usernameInput.classList.add('shake');
+        usernameInput.focus();
+        setTimeout(() => usernameInput.classList.remove('shake'), 500);
         return;
       }
 
       if (!password) {
         showMessage('error', 'Please enter your password.');
-        document.getElementById('password').focus();
+        passwordInput.classList.add('shake');
+        passwordInput.focus();
+        setTimeout(() => passwordInput.classList.remove('shake'), 500);
         return;
       }
 
       loginBtn.disabled = true;
-      loginBtn.textContent = 'Signing in…';
+      loginBtn.classList.add('btn-primary--loading');
 
       try {
         const data = await logIn(username, password);
         showMessage('success', data.message + ' Welcome, ' + data.user.username + '.');
       } catch (error) {
         showMessage('error', error.message);
+        usernameInput.classList.add('shake');
+        passwordInput.classList.add('shake');
+        setTimeout(() => {
+          usernameInput.classList.remove('shake');
+          passwordInput.classList.remove('shake');
+        }, 500);
       } finally {
         loginBtn.disabled = false;
-        loginBtn.textContent = 'Log In';
+        loginBtn.classList.remove('btn-primary--loading');
       }
     });
   </script>
