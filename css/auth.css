@@ -447,15 +447,25 @@ body::before {
 }
 
 .footer-links {
-  margin-top: 24px;
+  margin-top: 28px;
+  padding-top: 22px;
   text-align: center;
   font-size: 0.85rem;
   color: var(--auth-text-muted);
+  border-top: 1px solid var(--auth-border);
   animation: fadeIn 0.5s ease-out 0.5s both;
 }
 
 .footer-links p {
-  margin: 8px 0;
+  margin: 10px 0;
+}
+
+.footer-links p:first-child {
+  margin-top: 0;
+}
+
+.footer-links p:last-child {
+  margin-bottom: 0;
 }
 
 .footer-links a {
