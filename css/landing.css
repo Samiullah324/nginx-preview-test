@@ -16,6 +16,10 @@
   --landing-toggle-border: rgba(255, 107, 53, 0.25);
   --landing-gradient-start: #ff6b35;
   --landing-gradient-end: #ffb347;
+  --landing-bg-gradient-1: rgba(255, 107, 53, 0.08);
+  --landing-bg-gradient-2: rgba(255, 180, 100, 0.1);
+  --landing-feature-icon-bg: linear-gradient(135deg, rgba(255, 107, 53, 0.12) 0%, rgba(255, 179, 71, 0.15) 100%);
+  --landing-card-hover-border: rgba(255, 107, 53, 0.3);
   --landing-transition-fast: 0.2s ease;
   --landing-transition-medium: 0.3s ease;
   --landing-transition-slow: 0.5s ease;
@@ -40,6 +44,10 @@
     --landing-toggle-border: rgba(255, 143, 102, 0.3);
     --landing-gradient-start: #ff8f66;
     --landing-gradient-end: #ffc080;
+    --landing-bg-gradient-1: rgba(255, 143, 102, 0.1);
+    --landing-bg-gradient-2: rgba(255, 180, 100, 0.08);
+    --landing-feature-icon-bg: linear-gradient(135deg, rgba(255, 143, 102, 0.15) 0%, rgba(255, 192, 128, 0.2) 100%);
+    --landing-card-hover-border: rgba(255, 143, 102, 0.35);
   }
 }
 
@@ -61,6 +69,14 @@
   --landing-toggle-border: rgba(255, 143, 102, 0.3);
   --landing-gradient-start: #ff8f66;
   --landing-gradient-end: #ffc080;
+  --landing-bg-gradient-1: rgba(255, 143, 102, 0.1);
+  --landing-bg-gradient-2: rgba(255, 180, 100, 0.08);
+  --landing-feature-icon-bg: linear-gradient(135deg, rgba(255, 143, 102, 0.15) 0%, rgba(255, 192, 128, 0.2) 100%);
+  --landing-card-hover-border: rgba(255, 143, 102, 0.35);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
 }
 
 *,
@@ -231,9 +247,10 @@ body::before {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(255, 107, 53, 0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 90%, rgba(255, 180, 100, 0.1) 0%, transparent 60%);
+    radial-gradient(ellipse 80% 60% at 20% 10%, var(--landing-bg-gradient-1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 90%, var(--landing-bg-gradient-2) 0%, transparent 60%);
   pointer-events: none;
+  transition: background var(--landing-transition-medium);
 }
 
 .container {
@@ -578,7 +595,7 @@ body::before {
 .testimonial-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--landing-shadow-hover);
-  border-color: rgba(255, 107, 53, 0.3);
+  border-color: var(--landing-card-hover-border);
 }
 
 .feature-card__icon {
@@ -589,7 +606,7 @@ body::before {
   height: 48px;
   font-size: 1.5rem;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.12) 0%, rgba(255, 179, 71, 0.15) 100%);
+  background: var(--landing-feature-icon-bg);
   border-radius: 12px;
   transition: transform var(--landing-transition-medium);
 }

@@ -26,6 +26,8 @@
   --auth-toggle-border: rgba(255, 107, 53, 0.25);
   --auth-gradient-start: #ff6b35;
   --auth-gradient-end: #ffb347;
+  --auth-bg-gradient-1: rgba(255, 107, 53, 0.1);
+  --auth-bg-gradient-2: rgba(255, 180, 100, 0.08);
   --auth-transition-fast: 0.2s ease;
   --auth-transition-medium: 0.3s ease;
 }
@@ -59,6 +61,8 @@
     --auth-toggle-border: rgba(255, 143, 102, 0.3);
     --auth-gradient-start: #ff8f66;
     --auth-gradient-end: #ffc080;
+    --auth-bg-gradient-1: rgba(255, 143, 102, 0.1);
+    --auth-bg-gradient-2: rgba(255, 180, 100, 0.06);
   }
 }
 
@@ -90,6 +94,8 @@
   --auth-toggle-border: rgba(255, 143, 102, 0.3);
   --auth-gradient-start: #ff8f66;
   --auth-gradient-end: #ffc080;
+  --auth-bg-gradient-1: rgba(255, 143, 102, 0.1);
+  --auth-bg-gradient-2: rgba(255, 180, 100, 0.06);
 }
 
 [data-theme="light"] {
@@ -188,9 +194,10 @@ body::before {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(ellipse 60% 50% at 10% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(255, 180, 100, 0.08) 0%, transparent 50%);
+    radial-gradient(ellipse 60% 50% at 10% 20%, var(--auth-bg-gradient-1) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 90% 80%, var(--auth-bg-gradient-2) 0%, transparent 50%);
   pointer-events: none;
+  transition: background var(--auth-transition-medium);
 }
 
 .auth-page {
