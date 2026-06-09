@@ -21,19 +21,33 @@
 }
 
 :root {
-  --chat-accent: var(--landing-accent, var(--auth-accent, #ff6b35));
-  --chat-accent-hover: var(--landing-accent-hover, var(--auth-accent-hover, #e55a2b));
-  --chat-surface: var(--landing-surface, var(--auth-surface, #ffffff));
-  --chat-bg: var(--landing-bg, var(--auth-bg, #fffaf0));
-  --chat-text: var(--landing-text, var(--auth-text, #333333));
-  --chat-text-muted: var(--landing-text-muted, var(--auth-text-muted, #666666));
-  --chat-border: var(--landing-border, var(--auth-border, rgba(255, 107, 53, 0.15)));
-  --chat-shadow: var(--landing-shadow, var(--auth-shadow, 0 4px 24px rgba(0, 0, 0, 0.08)));
-  --chat-shadow-hover: 0 8px 32px rgba(255, 107, 53, 0.2);
-  --chat-input-bg: var(--auth-input-bg, #fafafa);
+  --chat-accent: var(--landing-accent, var(--auth-accent, var(--chrome-accent, #ff6b35)));
+  --chat-accent-hover: var(--landing-accent-hover, var(--auth-accent-hover, var(--chrome-accent-hover, #e55a2b)));
+  --chat-surface: var(--landing-surface, var(--auth-surface, var(--chrome-surface, #ffffff)));
+  --chat-bg: var(--landing-bg, var(--auth-bg, var(--chrome-bg, #fffaf0)));
+  --chat-text: var(--landing-text, var(--auth-text, var(--chrome-text, #333333)));
+  --chat-text-muted: var(--landing-text-muted, var(--auth-text-muted, var(--chrome-text-muted, #666666)));
+  --chat-border: var(--landing-border, var(--auth-border, var(--chrome-border, rgba(255, 107, 53, 0.15))));
+  --chat-shadow: var(--landing-shadow, var(--auth-shadow, var(--chrome-shadow, 0 4px 24px rgba(0, 0, 0, 0.08))));
+  --chat-shadow-hover: var(--landing-shadow-hover, var(--auth-shadow-hover, var(--chrome-shadow-hover, 0 8px 32px rgba(255, 107, 53, 0.2))));
+  --chat-input-bg: var(--auth-input-bg, var(--chrome-surface, #fafafa));
   --chat-focus-ring: var(--auth-focus-ring, rgba(255, 107, 53, 0.15));
+  --chat-gradient-end: var(--landing-gradient-end, var(--auth-gradient-end, var(--chrome-gradient-end, #ffb347)));
+  --chat-user-gradient-end: #ff8855;
   --chat-transition-fast: 0.2s ease;
   --chat-transition-medium: 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --chat-user-gradient-end: #ff9f7a;
+    --chat-focus-ring: var(--auth-focus-ring, rgba(255, 143, 102, 0.25));
+  }
+}
+
+[data-theme="dark"] {
+  --chat-user-gradient-end: #ff9f7a;
+  --chat-focus-ring: var(--auth-focus-ring, rgba(255, 143, 102, 0.25));
 }
 
 /* ===== Animation Keyframes ===== */
@@ -114,7 +128,7 @@
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--chat-accent) 0%, #ffb347 100%);
+  background: linear-gradient(135deg, var(--chat-accent) 0%, var(--chat-gradient-end) 100%);
   color: #ffffff;
   cursor: pointer;
   box-shadow: var(--chat-shadow);
@@ -193,7 +207,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 16px;
-  background: linear-gradient(135deg, var(--chat-accent) 0%, #ffb347 100%);
+  background: linear-gradient(135deg, var(--chat-accent) 0%, var(--chat-gradient-end) 100%);
   color: #ffffff;
 }
 
@@ -281,7 +295,7 @@
 
 .chat-widget__message--user {
   align-self: flex-end;
-  background: linear-gradient(135deg, var(--chat-accent) 0%, #ff8855 100%);
+  background: linear-gradient(135deg, var(--chat-accent) 0%, var(--chat-user-gradient-end) 100%);
   color: #ffffff;
   border-bottom-right-radius: 4px;
 }
@@ -355,7 +369,7 @@
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--chat-accent) 0%, #ff8855 100%);
+  background: linear-gradient(135deg, var(--chat-accent) 0%, var(--chat-user-gradient-end) 100%);
   color: #ffffff;
   font: inherit;
   font-size: 0.875rem;

@@ -8,6 +8,7 @@ FROM nginx:1.27-alpine
 RUN apk add --no-cache nodejs
 RUN mkdir -p /usr/share/nginx/html/js /usr/share/nginx/html/css
 COPY css/landing.css /usr/share/nginx/html/css/landing.css
+COPY css/home.css /usr/share/nginx/html/css/home.css
 COPY css/site-chrome.css /usr/share/nginx/html/css/site-chrome.css
 COPY --from=backend /app/backend /app/backend
 COPY nginx.conf /etc/nginx/conf.d/default.conf
