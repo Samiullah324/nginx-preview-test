@@ -3,18 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
+  <meta name="color-scheme" content="light">
   <title>Sunset Autopilot — Preview Deploy</title>
-  <script>
-    (function () {
-      try {
-        var stored = localStorage.getItem('auth-theme');
-        if (stored === 'dark' || stored === 'light') {
-          document.documentElement.setAttribute('data-theme', stored);
-        }
-      } catch (e) {}
-    })();
-  </script>
   <link rel="stylesheet" href="/css/site-chrome.css">
   <link rel="stylesheet" href="/css/home.css">
   <link rel="stylesheet" href="/css/chat-widget.css">
@@ -84,7 +74,6 @@
   </script>
   <script src="/js/site-chrome-data.js"></script>
   <script src="/js/site-chrome.js"></script>
-  <script src="/js/theme.js"></script>
   <script src="/js/chat-widget.js"></script>
 </body>
 </html>

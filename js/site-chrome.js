@@ -41,10 +41,6 @@
       '</a>' +
       '<nav class="site-nav" aria-label="Main">' +
       navLinks +
-      '<button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">' +
-      '<span class="theme-toggle__icon" aria-hidden="true">🌙</span>' +
-      '<span class="theme-toggle__label">Dark mode</span>' +
-      '</button>' +
       '</nav>' +
       '</div>' +
       '</header>';

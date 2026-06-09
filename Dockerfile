@@ -21,7 +21,6 @@ COPY css/chat-widget.css /usr/share/nginx/html/css/chat-widget.css
 COPY js/auth-api.js /usr/share/nginx/html/js/auth-api.js
 COPY js/landing-data.js /usr/share/nginx/html/js/landing-data.js
 COPY js/landing.js /usr/share/nginx/html/js/landing.js
-COPY js/theme.js /usr/share/nginx/html/js/theme.js
 COPY js/chat-widget.js /usr/share/nginx/html/js/chat-widget.js
 COPY js/site-chrome-data.js /usr/share/nginx/html/js/site-chrome-data.js
 COPY js/site-chrome.js /usr/share/nginx/html/js/site-chrome.js
