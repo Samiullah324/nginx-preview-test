@@ -21,85 +21,12 @@
   --auth-success-bg: #e8f5e9;
   --auth-success-border: #c8e6c9;
   --auth-btn-disabled: #888888;
-  --auth-toggle-bg: rgba(255, 107, 53, 0.1);
-  --auth-toggle-hover: rgba(255, 107, 53, 0.18);
-  --auth-toggle-border: rgba(255, 107, 53, 0.25);
   --auth-gradient-start: #ff6b35;
   --auth-gradient-end: #ffb347;
   --auth-bg-gradient-1: rgba(255, 107, 53, 0.1);
   --auth-bg-gradient-2: rgba(255, 180, 100, 0.08);
   --auth-transition-fast: 0.2s ease;
   --auth-transition-medium: 0.3s ease;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-
-    --auth-bg: #121212;
-    --auth-surface: #1e1e1e;
-    --auth-text: #e8e8e8;
-    --auth-text-muted: #a0a0a0;
-    --auth-accent: #ff8f66;
-    --auth-accent-hover: #ff6b35;
-    --auth-accent-active: #e55a2b;
-    --auth-border: #3a3a3a;
-    --auth-input-bg: #2a2a2a;
-    --auth-input-focus-bg: #333333;
-    --auth-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-    --auth-shadow-hover: 0 12px 40px rgba(255, 143, 102, 0.22);
-    --auth-focus-ring: rgba(255, 143, 102, 0.25);
-    --auth-error: #ef9a9a;
-    --auth-error-bg: #3d2020;
-    --auth-error-border: #6b3030;
-    --auth-success: #81c784;
-    --auth-success-bg: #1e3324;
-    --auth-success-border: #2e5a3a;
-    --auth-btn-disabled: #555555;
-    --auth-toggle-bg: rgba(255, 143, 102, 0.12);
-    --auth-toggle-hover: rgba(255, 143, 102, 0.22);
-    --auth-toggle-border: rgba(255, 143, 102, 0.3);
-    --auth-gradient-start: #ff8f66;
-    --auth-gradient-end: #ffc080;
-    --auth-bg-gradient-1: rgba(255, 143, 102, 0.1);
-    --auth-bg-gradient-2: rgba(255, 180, 100, 0.06);
-  }
-}
-
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  --auth-bg: #121212;
-  --auth-surface: #1e1e1e;
-  --auth-text: #e8e8e8;
-  --auth-text-muted: #a0a0a0;
-  --auth-accent: #ff8f66;
-  --auth-accent-hover: #ff6b35;
-  --auth-accent-active: #e55a2b;
-  --auth-border: #3a3a3a;
-  --auth-input-bg: #2a2a2a;
-  --auth-input-focus-bg: #333333;
-  --auth-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --auth-shadow-hover: 0 12px 40px rgba(255, 143, 102, 0.22);
-  --auth-focus-ring: rgba(255, 143, 102, 0.25);
-  --auth-error: #ef9a9a;
-  --auth-error-bg: #3d2020;
-  --auth-error-border: #6b3030;
-  --auth-success: #81c784;
-  --auth-success-bg: #1e3324;
-  --auth-success-border: #2e5a3a;
-  --auth-btn-disabled: #555555;
-  --auth-toggle-bg: rgba(255, 143, 102, 0.12);
-  --auth-toggle-hover: rgba(255, 143, 102, 0.22);
-  --auth-toggle-border: rgba(255, 143, 102, 0.3);
-  --auth-gradient-start: #ff8f66;
-  --auth-gradient-end: #ffc080;
-  --auth-bg-gradient-1: rgba(255, 143, 102, 0.1);
-  --auth-bg-gradient-2: rgba(255, 180, 100, 0.06);
-}
-
-[data-theme="light"] {
-  color-scheme: light;
 }
 
 *,
@@ -205,57 +132,6 @@ body::before {
   max-width: 400px;
   position: relative;
   animation: fadeInUp 0.6s ease-out;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: -48px;
-  right: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  font-size: 0.85rem;
-  font-family: inherit;
-  font-weight: 500;
-  color: var(--auth-text-muted);
-  background: var(--auth-toggle-bg);
-  border: 1px solid var(--auth-toggle-border);
-  border-radius: 8px;
-  cursor: pointer;
-  animation: slideInDown 0.5s ease-out 0.2s both;
-  transition: 
-    background-color var(--auth-transition-fast), 
-    color var(--auth-transition-fast), 
-    border-color var(--auth-transition-fast),
-    transform var(--auth-transition-fast),
-    box-shadow var(--auth-transition-fast);
-}
-
-.theme-toggle:hover {
-  background: var(--auth-toggle-hover);
-  color: var(--auth-accent);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
-}
-
-.theme-toggle:active {
-  transform: translateY(0);
-}
-
-.theme-toggle:focus-visible {
-  outline: 2px solid var(--auth-accent);
-  outline-offset: 2px;
-}
-
-.theme-toggle__icon {
-  font-size: 1rem;
-  line-height: 1;
-  transition: transform var(--auth-transition-fast);
-}
-
-.theme-toggle:hover .theme-toggle__icon {
-  transform: rotate(15deg);
 }
 
 .auth-card {
@@ -523,13 +399,6 @@ input:focus-visible {
 @media (max-width: 480px) {
   body {
     padding: 16px;
-  }
-
-  .theme-toggle {
-    top: -44px;
-    right: 0;
-    padding: 6px 10px;
-    font-size: 0.8rem;
   }
 
   .auth-card {

@@ -38,18 +38,6 @@
   --chat-transition-medium: 0.3s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --chat-user-gradient-end: #ff9f7a;
-    --chat-focus-ring: var(--auth-focus-ring, rgba(255, 143, 102, 0.25));
-  }
-}
-
-[data-theme="dark"] {
-  --chat-user-gradient-end: #ff9f7a;
-  --chat-focus-ring: var(--auth-focus-ring, rgba(255, 143, 102, 0.25));
-}
-
 /* ===== Animation Keyframes ===== */
 @keyframes bounceIn {
   0% {
